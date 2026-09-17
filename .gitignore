@@ -1,0 +1,15 @@
+# competition data (DrivenData licence: not redistributable)
+data/
+results/*.csv
+# DrivenData runtime clone (drivendataorg/competition-sfmn-parkinsons-runtime)
+runtime/
+# trained weights
+submission_src/models/
+submission_src/submission.csv
+# model weights, scratch, upload chunks, env
+*.pt
+tmp/
+upload/
+.venv/
+__pycache__/
+.DS_Store
