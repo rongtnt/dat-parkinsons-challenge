@@ -28,13 +28,13 @@ Built and submitted in one day (2026-09-16) on a MacBook with PyTorch MPS.
 | `2dsag` | 3 sagittal slabs | truncated ResNet18, int8 | 0.415 |
 | `feat` | 29 striatal features (SBR, volumes, extents, asymmetry) | LightGBM / logistic regression | 0.334 / 0.346 |
 
-**Stacking** (`scripts/package.py`): Platt-scale each model's OOF logits, then non-negative weights on the scaled logits (L-BFGS-B, cross-fitted by fold). `2dt + 2dcor + feat` = 0.2585 OOF cross-fit, 0.2696 public.
+**Blend**: Platt-scale each model's OOF logits, then weight them. Submission 1 used a simplex grid search (`scripts/blend.py`, weights 0.4 / 0.3 / 0.15 / 0.15): `2dt + 2dcor + feat` = 0.2585 OOF, 0.2696 public. Submissions 2 and 3 used non-negative stacking on the scaled logits (`scripts/package.py`, L-BFGS-B, cross-fitted by fold).
 
 **Size**: `src/quant.py` packs a truncated ResNet18 as int8 per-output-channel (2.8 MB per model, max logit drift 0.4). A full submission zip is 48 MB.
 
 ## Submissions
 
-| # | stack | OOF cross-fit | public LB |
+| # | stack | OOF | public LB |
 |---|---|---|---|
 | 1 | 2dt + 2dcor + feat | 0.2585 | **0.2696** |
 | 2 | 2dtc + 2dcorc + feat (retrained with the 3 % highest-OOF-loss training scans dropped) | 0.2502 | 0.2723 |
